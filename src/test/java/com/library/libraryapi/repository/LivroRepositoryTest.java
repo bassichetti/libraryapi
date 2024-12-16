@@ -89,4 +89,10 @@ public class LivroRepositoryTest {
         livros.forEach(System.out::println);
     }
 
+    @Test
+    public void listarLivrosComQueryJPQL() {
+        var livros = livroRepository.listarTodosOrdenadoPorTituloAndPreco();
+        livros.forEach(System.out::println);
+    }
+
 }
