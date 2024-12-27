@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "livro", schema = "public")
+@Table(name = "tb_livro", schema = "public")
 @Data
 public class Livro {
 
