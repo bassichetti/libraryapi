@@ -95,4 +95,17 @@ public class LivroRepositoryTest {
         livros.forEach(System.out::println);
     }
 
+    @Test
+    public void listarPorGeneroQueryParamTest() {
+        var genero = GeneroLivro.DRAMA;
+        var livros = livroRepository.findByGenero(genero, "dataPublicacao");
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    public void deletarTest() {
+        var id = UUID.fromString("71a51660-014b-49d4-a2b3-3142e65fb3d2");
+        livroRepository.deleteById(id);
+    }
+
 }
