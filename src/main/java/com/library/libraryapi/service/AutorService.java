@@ -9,18 +9,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.library.libraryapi.model.Autor;
 import com.library.libraryapi.repository.AutorRepository;
+import com.library.libraryapi.validator.AutorValidator;
 
 @Service
 public class AutorService {
 
     private final AutorRepository repository;
+    private final AutorValidator validator;
 
-    public AutorService(AutorRepository repository) {
+    public AutorService(AutorRepository repository, AutorValidator validator) {
         this.repository = repository;
+        this.validator = validator;
     }
 
     public Autor salvar(Autor autor) {
+        if (autor.getId() == null) {
+            throw new IllegalArgumentException("O id do autor não pode ser nulo.");
+
+        }
         return repository.save(autor);
+    }
+
+    public void atualizar(Autor autor) {
+        if (autor.getId() == null) {
+            throw new IllegalArgumentException("O id do autor não pode ser nulo.");
+        }
+        validator.validar(autor);
+        repository.save(autor);
     }
 
     public Optional<Autor> obterPorId(UUID idAutor) {
