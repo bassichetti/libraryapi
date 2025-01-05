@@ -18,6 +18,9 @@ import com.library.libraryapi.exception.RegistroDuplicadoException;
 import com.library.libraryapi.model.Autor;
 import com.library.libraryapi.service.AutorService;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,17 +29,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/autores")
+@RequiredArgsConstructor
 // http://localhost:8080/autores
 public class AutorController {
 
     private final AutorService service;
 
-    public AutorController(AutorService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor) {
         try {
             Autor autorEntidade = autor.mapearParaAutor();
             service.salvar(autorEntidade);
@@ -60,7 +60,8 @@ public class AutorController {
         Optional<Autor> autor = service.obterPorId(idAutor);
         if (autor.isPresent()) {
             Autor autorEncontrado = autor.get();
-            AutorDTO autorDTO = new AutorDTO(autorEncontrado.getNome(), autorEncontrado.getDataNascimento(),
+            AutorDTO autorDTO = new AutorDTO(autorEncontrado.getId(), autorEncontrado.getNome(),
+                    autorEncontrado.getDataNascimento(),
                     autorEncontrado.getNacionalidade());
             return ResponseEntity.ok(autorDTO);
         }
@@ -73,7 +74,6 @@ public class AutorController {
         Optional<Autor> autor = service.deletarPorId(idAutor);
         if (autor.isEmpty()) {
             return ResponseEntity.notFound().build();
-
         }
         service.deletarPorId(autor.get().getId());
         return ResponseEntity.noContent().build();
@@ -82,9 +82,10 @@ public class AutorController {
     @GetMapping
     public ResponseEntity<List<AutorDTO>> pesquisar(@RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
-        List<Autor> lista = service.pesquisar(nome, nacionalidade);
-        return ResponseEntity.ok(lista.stream().map(autor -> new AutorDTO(autor.getNome(), autor.getDataNascimento(),
-                autor.getNacionalidade())).toList());
+        List<Autor> lista = service.pesquisaByExample(nome, nacionalidade);
+        return ResponseEntity
+                .ok(lista.stream().map(autor -> new AutorDTO(autor.getId(), autor.getNome(), autor.getDataNascimento(),
+                        autor.getNacionalidade())).toList());
     }
 
     @PutMapping("{id}")

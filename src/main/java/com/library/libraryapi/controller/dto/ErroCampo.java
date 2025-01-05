@@ -1,5 +1,3 @@
 package com.library.libraryapi.controller.dto;
 
-public record ErroCampo() {
-
-}
+public record ErroCampo(String field, String defaultMessage) {}

@@ -30,8 +30,8 @@ public class Autor {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "id_usuario")
-    private UUID idUsuario;
+    // @Column(name = "id_usuario")
+    // private UUID idUsuario;
 
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;

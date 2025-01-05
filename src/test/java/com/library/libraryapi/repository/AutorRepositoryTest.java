@@ -19,7 +19,7 @@ public class AutorRepositoryTest {
     @Test
     public void salvarTest() {
         Autor autor = new Autor();
-        autor.setNome("LEANDRO BASSICHETTI");
+        autor.setNome("MARCELO GARCIA BASSICHETTI");
         autor.setNacionalidade("Brasileiro");
         autor.setDataNascimento(LocalDate.of(1983, 8, 5));
         autorRepository.save(autor);
@@ -52,6 +52,16 @@ public class AutorRepositoryTest {
     public void deletarPorIdTest() {
         var id = UUID.fromString("44172df0-d2b8-4f7a-ab82-ac55f9f81e5f");
         autorRepository.deleteById(id);
+    }
+
+    @Test
+    public void findByNomeAndDataNascimentoAndNacionalidade() {
+        var nome = "MARCELO GARCIA BASSICHETTI";
+        var dataNascimento = LocalDate.of(1983, 8, 3);
+        var nacionalidade = "Brasileiro";
+        Optional<Autor> autor = autorRepository.findByNomeAndDataNascimentoAndNacionalidade(nome, dataNascimento,
+                nacionalidade);
+        System.out.println(autor.toString());
     }
 
 }
