@@ -43,7 +43,7 @@ public class AutorService {
         if (autor.getId() == null) {
             throw new IllegalArgumentException("O id do autor não pode ser nulo.");
         }
-        validator.validar(autor);
+        // validator.validar(autor);
         repository.save(autor);
     }
 
