@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.library.libraryapi.controller.dto.CadastroLivroDTO;
 import com.library.libraryapi.controller.dto.ErroResposta;
 import com.library.libraryapi.controller.dto.LivroDTO;
 import com.library.libraryapi.exception.RegistroDuplicadoException;
@@ -28,6 +29,10 @@ public class LivroController {
     @PostMapping()
     public ResponseEntity<Object> salvar(@RequestBody LivroDTO dto) {
         try {
+            // Mapear dto para entidade
+            // enviar entidade para o service validar e salvar na base
+            // Criar url para acassar o recurso criado
+            // retornar codido ocm header location
 
             Livro livro = dto.mapearParaLivro();
 
