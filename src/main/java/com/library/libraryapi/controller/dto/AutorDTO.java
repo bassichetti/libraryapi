@@ -16,12 +16,6 @@ public record AutorDTO(
         @NotNull(message = "A data de nascimento é obrigatória") @Past(message = "Data de nascimento não deve ser uma data futura") LocalDate dataNascimento,
         @NotBlank(message = "A nacionalidade é obrigatória") @Size(max = 50, min = 2, message = "A nacionalidade deve ter no máximo 50 caracteres e no minimo 2 caracteres") String nacionalidade) {
 
-    public Autor mapearParaAutor() {
-        Autor autor = new Autor();
-        autor.setNome(this.nome);
-        autor.setDataNascimento(this.dataNascimento);
-        autor.setNacionalidade(this.nacionalidade);
-        return autor;
-    }
+
 
 }

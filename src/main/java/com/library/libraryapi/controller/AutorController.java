@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.library.libraryapi.mapper.AutorMapper;
+import com.library.libraryapi.controller.mapper.AutorMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 
@@ -40,7 +40,8 @@ public class AutorController {
 
     private final AutorService service;
 
-    @Qualifier("autorMapperImpl")
+
+    @Qualifier("autorMapper")
     private final AutorMapper mapper;
 
     @PostMapping

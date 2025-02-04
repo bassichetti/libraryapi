@@ -1,5 +1,8 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.controller.dto.CadastroLivroDTO;
+import com.library.libraryapi.controller.mapper.LivroMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,15 +28,18 @@ public class LivroController {
 
     private final LivroService service;
 
+    @Qualifier("livroMapper")
+    private final LivroMapper livroMapper;
+
     @PostMapping()
-    public ResponseEntity<Object> salvar(@RequestBody LivroDTO dto) {
+    public ResponseEntity<Object> salvar(@RequestBody CadastroLivroDTO dto) {
         try {
             // Mapear dto para entidade
             // enviar entidade para o service validar e salvar na base
             // Criar url para acassar o recurso criado
             // retornar codido ocm header location
 
-            Livro livro = dto.mapearParaLivro();
+            Livro livro= livroMapper.toEntity(dto);
 
             service.salvar(livro);
 

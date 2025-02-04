@@ -26,5 +26,4 @@ public class GlobalExceptionHandler {
                 fe.getField(), fe.getDefaultMessage())).collect(Collectors.toList());
         return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação", listaErrors);
     }
-
 }

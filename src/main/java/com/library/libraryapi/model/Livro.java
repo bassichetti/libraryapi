@@ -44,7 +44,7 @@ public class Livro {
     private BigDecimal preco;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_autor")
+    @JoinColumn(name = "idAutor")
     private Autor autor;
 
     public UUID getId() {

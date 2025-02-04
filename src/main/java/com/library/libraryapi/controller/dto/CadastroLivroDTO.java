@@ -13,9 +13,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
 public record CadastroLivroDTO(
-        @NotBlank(message = "O ISBN é obrigatório") @ISBN String isbn,
-        @NotBlank(message = "O título é obrigatório") String titulo,
-        @Past(message = "Data de publicação não deve ser uma data futura") LocalDate dataPublicacao, GeneroLivro genero,
-        BigDecimal preco, @NotNull(message = "O autor é obrigatório") UUID idAutor) {
+      String isbn,
+      String titulo,
+      LocalDate dataPublicacao,
+      GeneroLivro genero,
+      BigDecimal preco,
+      UUID idAutor) {
 
 }
