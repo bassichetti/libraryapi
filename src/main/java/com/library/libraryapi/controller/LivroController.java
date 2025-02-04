@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.library.libraryapi.controller.dto.CadastroLivroDTO;
 import com.library.libraryapi.controller.dto.ErroResposta;
 import com.library.libraryapi.controller.dto.LivroDTO;
 import com.library.libraryapi.exception.RegistroDuplicadoException;

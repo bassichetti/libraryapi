@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.library.libraryapi.mapper.AutorMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.library.libraryapi.controller.dto.AutorDTO;
 import com.library.libraryapi.controller.dto.ErroResposta;
+
 import com.library.libraryapi.exception.RegistroDuplicadoException;
+
 import com.library.libraryapi.model.Autor;
 import com.library.libraryapi.service.AutorService;
 
@@ -35,16 +40,21 @@ public class AutorController {
 
     private final AutorService service;
 
+    @Qualifier("autorMapperImpl")
+    private final AutorMapper mapper;
+
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO dto) {
         try {
-            Autor autorEntidade = autor.mapearParaAutor();
-            service.salvar(autorEntidade);
+             Autor autor = mapper.toEntity(dto);
+             service.salvar(autor);
+//            Autor autorEntidade = dto.mapearParaAutor();
+//            service.salvar(autorEntidade);
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(autorEntidade.getId())
+                    .buildAndExpand(autor.getId())
                     .toUri();
 
             return ResponseEntity.created(location).build();
@@ -57,12 +67,16 @@ public class AutorController {
     @GetMapping("{id}")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable String id) {
         var idAutor = UUID.fromString(id);
+        // return service.obterPorId(idAutor)
+        // .map(autor -> ResponseEntity.ok(mapper.toDTO(autor)))
+        // .orElseGet(() -> ResponseEntity.notFound().build());
+
+        // Refatoracao usando o mapper
         Optional<Autor> autor = service.obterPorId(idAutor);
         if (autor.isPresent()) {
             Autor autorEncontrado = autor.get();
             AutorDTO autorDTO = new AutorDTO(autorEncontrado.getId(), autorEncontrado.getNome(),
-                    autorEncontrado.getDataNascimento(),
-                    autorEncontrado.getNacionalidade());
+                    autorEncontrado.getDataNascimento(), autorEncontrado.getNacionalidade());
             return ResponseEntity.ok(autorDTO);
         }
         return ResponseEntity.notFound().build();
