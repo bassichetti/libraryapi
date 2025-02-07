@@ -19,6 +19,8 @@ public abstract class LivroMapper {
     @Mapping(target="autor", expression = "java( repository.findById(dto.idAutor()).orElse(null))")
    public abstract  Livro toEntity(CadastroLivroDTO dto);
 
-//    @InheritInverseConfiguration
-//    LivroDTO toDTO(Livro livro);
+    @InheritInverseConfiguration
+    public abstract LivroDTO toDTO(Livro livro);
+
+
 }
