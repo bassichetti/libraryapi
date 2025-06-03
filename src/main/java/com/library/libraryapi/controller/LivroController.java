@@ -33,7 +33,7 @@ public class LivroController {
     @PostMapping()
     public ResponseEntity<Object> salvar(@RequestBody CadastroLivroDTO dto) {
         try {
-            Livro livro= livroMapper.toEntity(dto);
+            Livro livro = livroMapper.toEntity(dto);
             service.salvar(livro);
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -46,10 +46,9 @@ public class LivroController {
             var erroDto = ErroResposta.conflito(e.getMessage());
             return ResponseEntity.status(erroDto.status()).body(erroDto);
         }
-
     }
 
-    @PutMapping({"di"})
+    @PutMapping("/{id}")
     public ResponseEntity<Object> atualizar(@PathVariable("id") String id, @RequestBody CadastroLivroDTO dto) {
         try {
             var idlivro = UUID.fromString(id);
@@ -72,19 +71,17 @@ public class LivroController {
             var erroDto = ErroResposta.conflito(e.getMessage());
             return ResponseEntity.status(erroDto.status()).body(erroDto);
         }
-
     }
-
 
     @GetMapping("{id}")
     public ResponseEntity<LivroDTO> obterDetalhes(@PathVariable String id) {
-          var idLivro = UUID.fromString(id);
-          Optional<Livro> livro = service.obterPorId(idLivro);
-          if (livro.isPresent()) {
-              Livro livroDetalhe = livro.get();
-              LivroDTO livroDTO = livroMapper.toDTO(livroDetalhe);
-              return ResponseEntity.ok(livroDTO);
-          }
+        var idLivro = UUID.fromString(id);
+        Optional<Livro> livro = service.obterPorId(idLivro);
+        if (livro.isPresent()) {
+            Livro livroDetalhe = livro.get();
+            LivroDTO livroDTO = livroMapper.toDTO(livroDetalhe);
+            return ResponseEntity.ok(livroDTO);
+        }
         return ResponseEntity.notFound().build();
     }
 
