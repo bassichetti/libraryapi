@@ -4,12 +4,17 @@ import com.library.libraryapi.controller.dto.AutorDTO;
 import com.library.libraryapi.model.Autor;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface AutorMapper {
 
-    AutorMapper INSTANCE = Mappers.getMapper(AutorMapper.class);
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "nome", source = "nome")
+    @Mapping(target = "dataNascimento", source = "dataNascimento")
+    @Mapping(target = "nacionalidade", source = "nacionalidade")
+    @Mapping(target = "livros", ignore = true)
 
     Autor toEntity(AutorDTO dto);
 
